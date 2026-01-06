@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "json-i18n/language-switcher",
+	"title": "Language Switcher",
+	"category": "widgets",
+	"icon": "translation",
+	"description": "Display a language switcher.",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"style": { "type": "string", "default": "dropdown" },
+		"showFlags": { "type": "boolean", "default": true },
+		"showNames": { "type": "boolean", "default": true },
+		"ariaLabel": { "type": "string", "default": "Language selector" }
+	},
+	"render": "file:./render.php"
+}

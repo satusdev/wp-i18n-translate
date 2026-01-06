@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "i18n-translate/text",
+	"version": "1.0.0",
+	"title": "i18n Text",
+	"category": "text",
+	"icon": "translation",
+	"description": "Display translated text from your i18n Translate keys.",
+	"keywords": ["translate", "i18n", "language", "text"],
+	"textdomain": "i18n-translate",
+	"attributes": {
+		"translationKey": {
+			"type": "string",
+			"default": ""
+		},
+		"fallback": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "span"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		},
+		"color": {
+			"text": true,
+			"background": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
