@@ -49,6 +49,7 @@ final class Plugin {
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/Strings.php';
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/Render.php';
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/LanguageSwitcherWidget.php';
+		require_once I18N_TRANSLATE_PATH . 'includes/Admin/Menus.php';
 
 		( new Installer() )->maybe_upgrade();
 		$this->services = new Services();
@@ -66,6 +67,7 @@ final class Plugin {
 
 		if ( is_admin() ) {
 			( new Admin() )->register();
+			  ( new \I18nTranslate\Admin\Menus() )->register();
 		}
 
 		$this->register_blocks();
@@ -279,6 +281,7 @@ final class Plugin {
 			'ajax_url'      => admin_url( 'admin-ajax.php' ),
 			'nonce'         => wp_create_nonce( 'wp_template_nonce' ),
 		] );
+    wp_enqueue_style( 'i18n-translate-public', I18N_TRANSLATE_URL . 'assets/public.css', [], I18N_TRANSLATE_VERSION );
 
 		wp_enqueue_script( 'i18n-translate-runtime' );
 	}

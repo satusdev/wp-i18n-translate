@@ -51,32 +51,22 @@ final class PublicApi {
                 }, 10, 2 );
 
                 // Menu Integration
-                add_filter( 'walker_nav_menu_start_el', function( $item_output, $item, $depth, $args ) {
-                    if ( is_admin() && ! wp_doing_ajax() ) {
-                        return $item_output;
-                    }
+    add_filter( 'walker_nav_menu_start_el', function( $item_output, $item, $depth, $args ) {
+    if ( is_admin() && ! wp_doing_ajax() ) {
+        return $item_output;
+    }
 
-                    $url = '';
-                    if ( is_object( $item ) && isset( $item->url ) && is_string( $item->url ) ) {
-                        $url = $item->url;
-                    }
+    $url = $item->url ?? '';
+    if ( $url !== '' && strpos( $url, '#i18n-switcher' ) !== false ) {
+        $style      = get_post_meta( $item->ID, '_menu_item_i18n_style', true ) ?: 'dropdown';
+        $show_flags = get_post_meta( $item->ID, '_menu_item_i18n_show_flags', true ) !== 'false';
+        $show_names = get_post_meta( $item->ID, '_menu_item_i18n_show_names', true ) !== 'false';
+        $extra_class = 'menu-item-switcher';
 
-                    if ( $url !== '' && strpos( $url, '#i18n-switcher' ) !== false ) {
-                        // Extract style arg if present #i18n-switcher?style=list
-                        $style = 'dropdown';
-                        $parts = parse_url( $url );
-                        if ( isset( $parts['query'] ) ) {
-                            parse_str( $parts['query'], $query );
-                            if ( isset( $query['style'] ) ) {
-                                $style = sanitize_text_field( $query['style'] );
-                            }
-                        }
-                        
-                        // Render switcher
-                        return i18n_translate()->render()->language_switcher( $style, true, true );
-                    }
-                    return $item_output;
-                }, 10, 4 );
+        return i18n_translate()->render()->language_switcher( $style, $show_flags, $show_names, $extra_class );
+    }
+    return $item_output;
+}, 10, 4 );
         }
 
         private function register_shortcodes(): void {
@@ -125,10 +115,8 @@ final class PublicApi {
                         return do_shortcode( '[json_i18n_language_switcher]' );
                 } );
 
-                // Simplified Aliases
 
                 add_shortcode( 'i18n', function( $atts ) {
-                    // Support [i18n "key" default="..."]
                     if ( isset( $atts[0] ) && ! isset( $atts['key'] ) ) {
                         $atts['key'] = $atts[0];
                     }
@@ -155,16 +143,18 @@ final class PublicApi {
                          'style'      => 'dropdown',
                          'show_flags' => 'true',
                          'show_names' => 'true',
+                        'class'      => '',           
                     ], (array) $atts );
 
                     $style      = sanitize_text_field( (string) $atts['style'] );
                     $show_flags = filter_var( $atts['show_flags'], FILTER_VALIDATE_BOOLEAN );
                     $show_names = filter_var( $atts['show_names'], FILTER_VALIDATE_BOOLEAN );
+                    $class      = sanitize_html_class( $atts['class'] );
 
-                    return i18n_translate()->render()->language_switcher( $style, $show_flags, $show_names );
+
+                    return i18n_translate()->render()->language_switcher( $style, $show_flags, $show_names, $class );
                 } );
 
-                // Media Support
                 add_shortcode( 'i18n_image', function( $atts ) {
                     if ( isset( $atts[0] ) && ! isset( $atts['key'] ) ) {
                         $atts['key'] = $atts[0];
@@ -187,12 +177,10 @@ final class PublicApi {
                         return '';
                     }
 
-                    // Check if numeric ID
                     if ( is_numeric( $val ) && (int) $val > 0 ) {
                         return wp_get_attachment_image( (int) $val, $atts['size'], false, [ 'class' => esc_attr( $atts['class'] ) ] );
                     }
 
-                    // Treat as URL
                     return sprintf( '<img src="%s" class="%s" alt="">', esc_url( $val ), esc_attr( $atts['class'] ) );
                 } );
 
