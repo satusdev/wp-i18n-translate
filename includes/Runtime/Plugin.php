@@ -48,6 +48,7 @@ final class Plugin {
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/Services.php';
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/Strings.php';
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/Render.php';
+		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/SwitcherEnhancer.php';
 		require_once I18N_TRANSLATE_PATH . 'includes/Runtime/LanguageSwitcherWidget.php';
 		require_once I18N_TRANSLATE_PATH . 'includes/Admin/Menus.php';
 
@@ -71,6 +72,7 @@ final class Plugin {
 		}
 
 		$this->register_blocks();
+		( new SwitcherEnhancer() )->register();
 	}
 
 	public function locale(): Locale {

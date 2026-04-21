@@ -1,0 +1,282 @@
+/* =========================================================
+   i18n Translate — Enhanced Language Switcher
+   switcher.css  (لا تعديل على public.css الأصلي)
+   ========================================================= */
+
+/* ── Reset & Base ─────────────────────────────────────── */
+.i18n-language-switcher *,
+.i18n-language-switcher *::before,
+.i18n-language-switcher *::after {
+    box-sizing: border-box;
+}
+
+.i18n-language-switcher {
+    display: inline-flex;
+    align-items: center;
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1;
+    position: relative;
+}
+
+.i18n-language-switcher ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.i18n-language-switcher .flag {
+    display: inline-flex;
+    align-items: center;
+    font-style: normal;
+    font-size: 1.1em;
+    margin-right: 0.35em;
+    line-height: 1;
+}
+
+/* ── Inline / List ────────────────────────────────────── */
+.i18n-language-switcher.inline,
+.i18n-language-switcher.list,
+.i18n-language-switcher.flags-only,
+.i18n-language-switcher.names-only {
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.i18n-language-switcher.list ul {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.i18n-language-switcher.inline a,
+.i18n-language-switcher.list  a,
+.i18n-language-switcher.flags-only a,
+.i18n-language-switcher.names-only a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(0,0,0,.15);
+    transition: background-color .18s, border-color .18s, color .18s;
+    white-space: nowrap;
+}
+
+.i18n-language-switcher.inline a:hover,
+.i18n-language-switcher.list  a:hover,
+.i18n-language-switcher.flags-only a:hover,
+.i18n-language-switcher.names-only a:hover {
+    background-color: rgba(0,0,0,.06);
+    border-color: rgba(0,0,0,.25);
+}
+
+.i18n-language-switcher.inline a.active,
+.i18n-language-switcher.list  .active a,
+.i18n-language-switcher.flags-only a.active,
+.i18n-language-switcher.names-only a.active {
+    background-color: #0073aa;
+    color: #fff;
+    border-color: #0073aa;
+    font-weight: 600;
+}
+
+/* ── Dropdown ─────────────────────────────────────────── */
+.i18n-language-switcher.dropdown {
+    position: relative;
+    display: inline-flex;
+}
+
+/* زر التفعيل */
+.i18n-language-switcher.dropdown .i18n-switcher-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    padding: 0.4rem 0.75rem 0.4rem 0.65rem;
+    border: 1px solid rgba(0,0,0,.18);
+    border-radius: 9999px;
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: 1.4;
+    user-select: none;
+    transition: background-color .18s, border-color .18s, box-shadow .18s;
+    white-space: nowrap;
+}
+
+.i18n-language-switcher.dropdown .i18n-switcher-trigger:hover {
+    background-color: rgba(0,0,0,.05);
+    border-color: rgba(0,0,0,.28);
+}
+
+.i18n-language-switcher.dropdown.is-open .i18n-switcher-trigger {
+    background-color: rgba(0,0,0,.06);
+    border-color: rgba(0,0,0,.28);
+    box-shadow: 0 0 0 3px rgba(0,115,170,.18);
+}
+
+/* السهم */
+.i18n-switcher-caret {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    opacity: .6;
+    transition: transform .2s;
+    flex-shrink: 0;
+    margin-left: 0.1rem;
+}
+
+.i18n-language-switcher.dropdown.is-open .i18n-switcher-caret {
+    transform: rotate(-135deg) translateY(-2px);
+}
+
+/* القائمة المنسدلة */
+.i18n-language-switcher.dropdown .i18n-switcher-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 160px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.06);
+    z-index: 99999;
+    overflow: hidden;
+    padding: 0.3rem 0;
+    animation: i18n-drop-in .15s ease;
+}
+
+@keyframes i18n-drop-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.i18n-language-switcher.dropdown.is-open .i18n-switcher-menu {
+    display: block;
+}
+
+/* عناصر القائمة */
+.i18n-switcher-menu li {
+    display: block;
+    margin: 0;
+}
+
+.i18n-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color .14s;
+    white-space: nowrap;
+}
+
+.i18n-switcher-menu a:hover {
+    background-color: rgba(0,0,0,.05);
+}
+
+.i18n-switcher-menu .active a {
+    background-color: rgba(0,115,170,.08);
+    color: #0073aa;
+    font-weight: 600;
+}
+
+.i18n-switcher-menu .active a::after {
+    content: "\2713";
+    margin-left: auto;
+    padding-left: 1rem;
+    font-size: .8em;
+    color: #0073aa;
+}
+
+/* ── RTL ──────────────────────────────────────────────── */
+.i18n-language-switcher.dropdown.align-right .i18n-switcher-menu,
+[dir="rtl"] .i18n-language-switcher.dropdown .i18n-switcher-menu {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .i18n-language-switcher .flag {
+    margin-right: 0;
+    margin-left: 0.35em;
+}
+
+[dir="rtl"] .i18n-switcher-caret {
+    border-right: none;
+    border-left: 1.5px solid currentColor;
+}
+
+[dir="rtl"] .i18n-switcher-menu a {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .i18n-switcher-menu .active a::after {
+    margin-left: 0;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 1rem;
+}
+
+/* ── Header preset ────────────────────────────────────── */
+.i18n-in-header .i18n-language-switcher.dropdown .i18n-switcher-trigger {
+    border-color: rgba(255,255,255,.35);
+}
+
+.i18n-in-header .i18n-language-switcher.dropdown .i18n-switcher-trigger:hover {
+    background-color: rgba(255,255,255,.15);
+    border-color: rgba(255,255,255,.55);
+}
+
+.i18n-in-header .i18n-language-switcher.dropdown.is-open .i18n-switcher-trigger {
+    background-color: rgba(255,255,255,.2);
+}
+
+/* ── Focus (accessibility) ────────────────────────────── */
+.i18n-language-switcher a:focus-visible,
+.i18n-language-switcher .i18n-switcher-trigger:focus-visible {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* ── Dark mode ────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+    .i18n-language-switcher.dropdown .i18n-switcher-menu {
+        background: #1e1e1e;
+        border-color: rgba(255,255,255,.12);
+        box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    }
+    .i18n-switcher-menu a:hover {
+        background-color: rgba(255,255,255,.07);
+    }
+    .i18n-switcher-menu .active a {
+        background-color: rgba(0,115,170,.2);
+    }
+    .i18n-language-switcher.inline a,
+    .i18n-language-switcher.list   a {
+        border-color: rgba(255,255,255,.18);
+    }
+    .i18n-language-switcher.inline a:hover,
+    .i18n-language-switcher.list   a:hover {
+        background-color: rgba(255,255,255,.08);
+        border-color: rgba(255,255,255,.3);
+    }
+}
+
+/* ── Reduced motion ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .i18n-language-switcher *,
+    .i18n-switcher-menu {
+        transition: none !important;
+        animation: none !important;
+    }
+}
